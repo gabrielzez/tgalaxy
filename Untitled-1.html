@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundo Colorido e Fotos</title>
+    <style>
+        /* Estilo do corpo da página */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(45deg, 
+                #9b1de1,  /* Roxo mais intenso */
+                #ff1b8c,  /* Rosa vibrante */
+                #ff3b3b,  /* Vermelho mais vivo */
+                #e30c8b,  /* Roxo intenso */
+                #ff66b2,  /* Rosa bem vivo */
+                #ff3333   /* Vermelho mais intenso */
+            );
+            background-size: 300% 300%;
+            animation: gradientAnimation 5s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        /* Animação de transição suave entre as cores */
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Estilo do botão */
+        .btn {
+            background-color: #ff66b2;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+        }
+
+        /* Efeito de hover no botão */
+        .btn:hover {
+            background-color: #ff3385;
+            transform: scale(1.1);
+        }
+
+        /* Estilo do carrossel de fotos */
+        .photos-container {
+            display: none; /* Esconde o carrossel inicialmente */
+            width: 60%;
+            max-width: 600px;
+            position: relative;
+            margin-top: 30px;
+            overflow: hidden; /* Impede que as imagens "saem" da área visível */
+        }
+
+        .photos img {
+            width: 100%;             /* Ajusta a largura das imagens para 100% do contêiner */
+            height: auto;            /* Ajusta a altura automaticamente para manter a proporção */
+            object-fit: contain;     /* Ajusta a imagem sem cortá-la (preserva a imagem inteira) */
+            object-position: center center;  /* Centraliza a imagem */
+            border-radius: 10px;
+            margin: 0 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: none;           /* Oculta todas as imagens inicialmente */
+        }
+
+        /* Botões de navegação do carrossel */
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 2rem;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 2;
+            right: 10px;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 768px) {
+            .photos-container {
+                width: 90%;  /* Aumenta a largura do carrossel para ocupar mais espaço em telas menores */
+            }
+
+            .photos img {
+                width: 100%;  /* Faz as imagens ocuparem 100% da largura da tela */
+                margin: 0;
+            }
+
+            .btn {
+                font-size: 1.2rem;  /* Ajusta o tamanho do botão em telas pequenas */
+                padding: 12px 24px;  /* Ajusta o tamanho do botão */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>salve salve minha cheirosa ❤️(minha cheirosa)❤️ so pra ficar claro mesmo!</h1>
+    <p> sim, fiz mais uma little surprise novamente </p>
+    <p>♡♡Clique no botão abaixo para ver uma coisinha♡♡ !</p>
+
+    <!-- Botão -->
+    <button class="btn" id="showPhotosBtn">Mostrar o misterio misterioso</button>
+
+    <!-- Carrossel de Fotos -->
+    <div class="photos-container" id="photosContainer">
+        <div class="photos" id="photoList">
+            <!-- Adicione as 6 fotos aqui -->
+            <img src="1.jpeg" alt="Foto 1" onerror="this.style.display='none';">
+            <img src="2.jpeg" alt="Foto 2" onerror="this.style.display='none';">
+            <img src="3.jpeg" alt="Foto 3" onerror="this.style.display='none';">
+            <img src="4.jpeg" alt="Foto 4" onerror="this.style.display='none';">
+            <img src="5.jpeg" alt="Foto 5" onerror="this.style.display='none';">
+            <img src="6.jpeg" alt="Foto 6" onerror="this.style.display='none';">
+            <img src="7.jpeg" alt="Foto 7" onerror="this.style.display='none';">
+        </div>
+        
+        <!-- Botão de navegação (Somente para a próxima foto) -->
+        <button class="next" id="nextBtn">&#10095;</button>
+    </div>
+
+    <script>
+        // JavaScript para controlar a exibição das fotos e a navegação
+        const showPhotosBtn = document.getElementById('showPhotosBtn');
+        const photosContainer = document.getElementById('photosContainer');
+        const photoList = document.getElementById('photoList');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentIndex = 0; // Começar com a primeira foto
+
+        // Exibir o carrossel de fotos quando o botão for clicado
+        showPhotosBtn.addEventListener('click', () => {
+            // Esconde o texto e o botão
+            document.querySelector('h1').style.display = 'none';
+            document.querySelector('p').style.display = 'none';
+            showPhotosBtn.style.display = 'none';
+
+            // Exibe o carrossel de fotos
+            photosContainer.style.display = 'block';
+
+            // Exibe a primeira imagem
+            updatePhotoDisplay();
+        });
+
+        // Função para atualizar a exibição das fotos
+        function updatePhotoDisplay() {
+            const totalPhotos = photoList.children.length;
+
+            // Oculta todas as imagens
+            for (let i = 0; i < totalPhotos; i++) {
+                photoList.children[i].style.display = 'none';
+            }
+
+            // Exibe a imagem atual
+            photoList.children[currentIndex].style.display = 'block';
+        }
+
+        // Navegar para a próxima foto
+        nextBtn.addEventListener('click', () => {
+            const totalPhotos = photoList.children.length;
+            if (currentIndex < totalPhotos - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0; // Volta para a primeira foto
+            }
+            updatePhotoDisplay();
+        });
+    </script>
+
+</body>
+</html>
