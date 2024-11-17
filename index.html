@@ -120,8 +120,8 @@
 <body>
 
     <h1>salve salve minha cheirosa ❤️(minha cheirosa)❤️ so pra ficar claro mesmo!</h1>
-    <p> sim, fiz mais uma little surprise novamente </p>
-    <p>♡♡Clique no botão abaixo para ver uma coisinha♡♡ !</p>
+    <p id="surpriseText">sim, fiz mais uma little surprise novamente</p>
+    <p id="instructions">♡♡Clique no botão abaixo para ver uma coisinha♡♡ !</p>
 
     <!-- Botão -->
     <button class="btn" id="showPhotosBtn">Mostrar o misterio misterioso</button>
@@ -149,6 +149,8 @@
         const photosContainer = document.getElementById('photosContainer');
         const photoList = document.getElementById('photoList');
         const nextBtn = document.getElementById('nextBtn');
+        const surpriseText = document.getElementById('surpriseText');
+        const instructions = document.getElementById('instructions');
         
         let currentIndex = 0; // Começar com a primeira foto
 
@@ -156,7 +158,8 @@
         showPhotosBtn.addEventListener('click', () => {
             // Esconde o texto e o botão
             document.querySelector('h1').style.display = 'none';
-            document.querySelector('p').style.display = 'none';
+            surpriseText.style.display = 'none'; // Esconde o "sim, fiz mais uma little surprise"
+            instructions.style.display = 'none'; // Esconde a frase de instrução
             showPhotosBtn.style.display = 'none';
 
             // Exibe o carrossel de fotos
